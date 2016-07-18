@@ -37,6 +37,8 @@ namespace mascot {
 		}
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Drawing::Graphics^ g;
+	private: Bitmap^ bmp;
 	protected:
 
 	private:
@@ -44,7 +46,7 @@ namespace mascot {
 		/// Required designer variable.
 		/// </summary>
 		System::ComponentModel::Container ^components;
-
+		
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -52,7 +54,6 @@ namespace mascot {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
@@ -70,7 +71,6 @@ namespace mascot {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.BackgroundImage")));
 			this->pictureBox1->Location = System::Drawing::Point(12, 26);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(256, 256);
@@ -87,27 +87,26 @@ namespace mascot {
 			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::MyForm_Paint);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-
-		if (picture)
-		{ 
-			pictureBox1->Visible = false;
-			picture = false;
-		}
-		else
-		{
-			pictureBox1->Visible = true;
-			picture = true;
-		}
-		
-
+		pictureBox1->Visible = !pictureBox1->Visible;
+		Refresh();
 	}
 	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		g = pictureBox1->CreateGraphics();
+		bmp = gcnew Bitmap(L"mascot.bmp");
+
+	}
+	private: System::Void MyForm_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+		g->DrawImage(bmp, 0, 0);
 	}
 	};
 }
