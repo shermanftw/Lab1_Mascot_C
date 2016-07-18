@@ -15,6 +15,7 @@ namespace mascot {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
+		bool picture;
 		MyForm(void)
 		{
 			InitializeComponent();
@@ -34,6 +35,9 @@ namespace mascot {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	protected:
 
 	private:
 		/// <summary>
@@ -48,12 +52,62 @@ namespace mascot {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyForm";
-			this->Padding = System::Windows::Forms::Padding(0);
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			this->SuspendLayout();
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(306, 151);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->TabIndex = 0;
+			this->button1->Text = L"Show/Hide";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.BackgroundImage")));
+			this->pictureBox1->Location = System::Drawing::Point(12, 26);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(256, 256);
+			this->pictureBox1->TabIndex = 1;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
+			// 
+			// MyForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(393, 309);
+			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->button1);
+			this->Name = L"MyForm";
+			this->Text = L"MyForm";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		if (picture)
+		{ 
+			pictureBox1->Visible = false;
+			picture = false;
+		}
+		else
+		{
+			pictureBox1->Visible = true;
+			picture = true;
+		}
+		
+
+	}
+	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
 	};
 }
